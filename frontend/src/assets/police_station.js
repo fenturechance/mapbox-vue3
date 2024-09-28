@@ -7,21 +7,20 @@ function createUrlWithParams(baseUrl, params) {
 }
 const baseUrl = `${window.location.origin}/geoserver/ne/wms`
 const params = {
-  bbox: "{bbox-epsg-4326}",
-  format: "image/jpeg",
+  bbox: "{bbox-epsg-3857}",
+  format: "image/png",
   service: "WMS",
   version: "1.1.1",
   request: "GetMap",
-  srs: "EPSG:4326",
+  srs: "EPSG:3857",
   transparent: true,
   width: 256,
   height: 256,
   layers: "police_station",
-  styles: '',
   execptions: "application/vnd.ogc.se_inimage",
 }
 
-const resultUrl = createUrlWithParams(baseUrl, params)
+const resultUrl = decodeURIComponent(createUrlWithParams(baseUrl, params))
 
 export const police_station = {
   type: "raster",
