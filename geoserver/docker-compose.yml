@@ -1,0 +1,36 @@
+services:
+  postgis:
+    container_name: postgis
+    image: postgis/postgis:16-3.4
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: gis
+    ports:
+      - "5432:5432"
+    networks:
+      - geoserver-network
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+  geoserver:
+    image: docker.osgeo.org/geoserver:2.26.0
+    container_name: geoserver
+    environment:
+      - GEOSERVER_ADMIN_USER=admin
+      - GEOSERVER_ADMIN_PASSWORD=admin
+    networks:
+      - geoserver-network
+    ports:
+      - "80:8080"
+    depends_on:
+      - postgis
+    restart: always
+
+networks:
+  geoserver-network:
+    driver: bridge
+
+volumes:
+  postgresql_data:

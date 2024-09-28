@@ -4,11 +4,11 @@
 
 <script>
 import mapboxgl from "mapbox-gl"
-//get token from env
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 import layers from "@/assets/layers"
 import { text, color } from "@/assets/taipeiTownStyle"
 import { building } from "@/assets/building"
+import { police_station, police_station_layer } from "@/assets/police_station"
 export default {
   mounted() {
     const map = new mapboxgl.Map({
@@ -36,9 +36,11 @@ export default {
         .then((data) => {
           this.map
             .addSource("taipei_town", { type: "geojson", data: data })
+            .addSource("police_station", police_station)
             .addLayer(building)
             .addLayer(color)
             .addLayer(text)
+            .addLayer(police_station_layer)
         })
     })
   },
